@@ -1,87 +1,200 @@
-# Student Task Manager — Improved Final 3 (WPF)
+# 🎓 Student Task Management System
 
-A Windows desktop application built with **C# / .NET 10 / WPF**, **Entity Framework Core** and **SQL Server**. This is an improved version of the supplied `Final 3.rar` project; it keeps the original database schema and EF Core migration so that an existing `WPFProject1` database can be reused.
+### C# | .NET | WPF | Entity Framework Core
 
-## Features
+A Windows desktop application designed to help teachers manage student assignments and allow students to view their assigned tasks and update their progress.
 
-- Teacher sign-in, first-run teacher account setup, and student self-registration.
-- Teacher dashboard: add, view, edit and delete students and their linked login accounts.
-- Teacher assignment management: add, edit, delete and view assignments for each student.
-- Student dashboard: see only their assignments and change their status (Pending, In Progress, Completed).
-- List all assignments with student names.
-- Password changes for both teachers and students.
-- Improved field validation, delete confirmations, and refreshed EF Core data without stale entity tracking.
-- Passwords are stored with PBKDF2-SHA256 and a randomly generated salt. **Legacy plaintext passwords from Final 3 are upgraded when their users log in successfully.**
+Built using **C#, Windows Presentation Foundation (WPF), and Entity Framework Core**, this project demonstrates desktop application development, relational database integration, CRUD operations, and role-specific application workflows.
 
-## Requirements
+---
 
-- Windows 10/11
-- Visual Studio 2026 (or a Visual Studio edition that supports **.NET 10 WPF**) with the **.NET desktop development** workload and .NET 10 SDK
-- SQL Server (Express/Developer/other local instance) and optional SSMS
-- Internet during the first NuGet restore (unless packages are already cached)
+## 📌 Project Overview
 
-## Quick start
+The Student Task Management System provides separate interfaces for teachers and students to simplify academic assignment management.
 
-1. Open `WpfApp2.slnx` in Visual Studio.
-2. Set `StudentTaskSystem` as the startup project.
-3. Check your SQL Server instance. The default is `localhost\SQLEXPRESS`, and database name is `WPFProject1`.
-4. If your instance differs, set the environment variable **`STUDENT_TASK_DB_CONNECTION`** before starting Visual Studio. For example, in PowerShell:
+Teachers can create, view, update, and manage student assignments, while students can access their tasks and update their assignment status.
 
-   ```powershell
-   $env:STUDENT_TASK_DB_CONNECTION = 'Server=.;Database=WPFProject1;Trusted_Connection=True;TrustServerCertificate=True;'
-   ```
+The project focuses on integrating a desktop user interface with a relational database using .NET technologies.
 
-   An environment variable set only in a PowerShell session is inherited by Visual Studio **only when you start Visual Studio from that same session**. Alternatively set it in Windows *Environment Variables* and restart Visual Studio, or edit `Data/App_dbContext.cs` for your local development machine.
+## ✨ Key Features
 
-5. From **Tools → NuGet Package Manager → Package Manager Console**, select `StudentTaskSystem` as the default project, then run:
+### 👨‍🏫 Teacher Features
+- Teacher login interface
+- Create new assignments
+- View existing assignments
+- Update assignment details
+- Manage assignments through a dedicated interface
+- Access assignment management windows
 
-   ```powershell
-   Update-Database
-   ```
+### 👨‍🎓 Student Features
+- Student login interface
+- View assigned tasks
+- Access assignment information
+- Update assignment status
+- Track assigned work through a dedicated student interface
 
-   The existing migration is included. If you already have the original `WPFProject1` database with its `__EFMigrationsHistory` table, **back up the database first** and do not delete it: this version is designed to use the same tables.
+### 🗄️ Database Integration
+- Entity Framework Core for data access
+- Relational models for students, teachers, and assignments
+- Database migrations
+- LINQ queries
+- Database-backed CRUD operations
 
-6. Build the solution and press **F5**.
-7. If no teacher exists, use **Create Teacher** on the sign-in screen (a password of at least 8 characters is required). If you already have an account, log in normally.
+## 🛠️ Tech Stack
 
-> **Existing Final 3 users:** Student and teacher passwords from the old database still work. On successful login, the old plaintext password will be replaced by a salted PBKDF2 hash. The old insecure `teacher / 123` account, if it exists, is required to change its password upon login. **New installations no longer automatically create that default account.**
+| Technology | Purpose |
+|---|---|
+| C# | Application logic |
+| .NET | Application platform |
+| WPF | Desktop user interface |
+| XAML | UI design and layout |
+| Entity Framework Core | Object-relational mapping |
+| LINQ | Data querying |
+| Relational Database | Persistent data storage |
+| Visual Studio | Development environment |
+| Git & GitHub | Version control |
 
-## Notes on the database
+## 🏗️ Application Structure
 
-- EF Core migration `20251127112109_first` is deliberately unchanged: changes to password handling fit in the existing `Users.Password` string column.
-- Student registration starts with age `0` (unspecified), just as in the original app; the teacher must enter an age from 1 to 120 when editing it.
-- Removing a student also removes their linked user account and assignments. Confirm before deletion.
-- Current app is a **desktop learning/demo project**, not a hardened multi-user production system. The SQL Server connection runs with Windows authentication and the current client's DB permissions; authorization is UI-level rather than enforced by a server API. Use a proper backend service, restricted DB rights, unique username constraint, and additional security controls before any real deployment.
-- If `Update-Database` fails, check SQL Server service, instance name, Windows authentication access, and NuGet restoration. Do not disable NuGet security auditing as a permanent fix.
+The project separates its user interface, data access, and entity models.
 
-## Changes from Final 3
+```text
+StudentTaskSystem/
+│
+├── App/
+│   │
+│   ├── Data/
+│   │   └── App_dbContext.cs
+│   │
+│   ├── Model/
+│   │   ├── Student.cs
+│   │   ├── Teacher.cs
+│   │   └── Assignment.cs
+│   │
+│   ├── Migrations/
+│   │
+│   ├── Windows/
+│   │   ├── AuthWindow.xaml
+│   │   ├── Student_Window.xaml
+│   │   ├── Student_UpdateStatus.xaml
+│   │   ├── Teacher_MainWindow.xaml
+│   │   ├── Teacher_CrudAssignment.xaml
+│   │   ├── Teacher_UpdateAssignment.xaml
+│   │   └── Teacher_AllAssignments.xaml
+│   │
+│   ├── App.xaml
+│   └── StudentTaskSystem.csproj
+│
+└── README.md
+```
 
-- Fixed null handling when removing students without linked login accounts.
-- Replaced unsafe `First()` lookups with existence checks.
-- Added required-field, age and credential validation to avoid silently setting an invalid age to `0`.
-- Removed long-lived DbContext objects from WPF windows, reducing EF entity tracking conflicts and stale displays.
-- Added confirmation before student/assignment deletion.
-- Separated status selection from read-only assignment DataGrid, fixing update/refresh inconsistencies.
-- Stopped showing saved passwords in the student editing form.
-- Added hashing, initial teacher setup, legacy-password upgrade and change-password flows.
-- Added clearer WPF layouts and user-friendly database error messages.
+*The structure above reflects the previously reviewed project version.*
 
-## Verification status
+## 🔄 Application Workflow
 
-The XAML files were parsed successfully and UI event-handler names were checked against code. **Compilation, WPF runtime behavior, SQL Server access and database migration were not tested in this environment**, which does not provide a Windows/.NET 10 desktop runtime. Please run `Build → Rebuild Solution` and test the checklist below on Windows before publishing this repository as a completed project.
+### Teacher Workflow
 
-### Windows smoke-test checklist
+1. Open the desktop application.
+2. Sign in through the teacher login interface.
+3. Access the teacher dashboard.
+4. Create or manage assignments.
+5. View existing assignments and update their details.
 
-- [ ] Run `Update-Database` with a fresh local SQL Server database.
-- [ ] Create a teacher on a new database; sign in; change password.
-- [ ] Register a student; sign in; change password.
-- [ ] Teacher: add, edit and delete students, including a student with assignments.
-- [ ] Teacher: add, edit and delete assignments.
-- [ ] Student: update assignment status; close/reopen window; confirm new status persists.
-- [ ] Reject bad age input, empty names, duplicate usernames and short passwords.
-- [ ] If using an original Final 3 database, verify legacy login and automatic password upgrade.
-- [ ] Verify teacher account originally using `123` is required to change its password.
+### Student Workflow
 
-## Repository suggestion
+1. Open the desktop application.
+2. Sign in using student credentials.
+3. Access the student interface.
+4. View assigned tasks.
+5. Update assignment progress or status.
 
-Use `StudentTaskManager-WPF` as the GitHub repository name. The project keeps the original `WpfApp2` C# namespace to preserve compatibility with existing WPF XAML and EF migrations.
+## 💾 Data Management
+
+The application uses Entity Framework Core to connect its data models to a relational database.
+
+The core entities include:
+
+- **Teacher:** Represents teacher account information.
+- **Student:** Represents student account information.
+- **Assignment:** Represents tasks managed within the system.
+
+The application uses EF Core migrations to manage database schema changes.
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Windows operating system
+- Visual Studio with .NET desktop development support
+- Compatible .NET SDK
+- Database server supported by the project's EF Core configuration
+
+### Installation
+
+**1. Clone the repository**
+
+```bash
+git clone https://github.com/MMohamedHeshamm/StudentTaskSystem-Desktop-App.git
+```
+
+**2. Open the project**
+
+Open the solution in Visual Studio.
+
+**3. Configure the database**
+
+Review the database connection configuration in the project's `App_dbContext.cs` file and adjust it for your local environment.
+
+**4. Apply database migrations**
+
+After confirming the installed EF Core tools and database configuration, apply the project's existing migrations.
+
+**5. Run the application**
+
+Build and start the WPF project using Visual Studio.
+
+## 🔐 Authentication Note
+
+The current project version uses a basic, educational login implementation.
+
+It is intended to demonstrate desktop application workflows and database interaction, rather than production-grade identity management.
+
+For production use, password hashing, secure account provisioning, and stronger authentication and authorization controls would be required.
+
+## 📈 Future Improvements
+
+- Secure password hashing and authentication
+- Improved input validation
+- Search and filtering for assignments
+- Assignment deadlines and priorities
+- Unit testing
+- Improved exception handling
+- Enhanced UI/UX
+- More maintainable separation of presentation and data access concerns
+
+## 🎯 What I Learned
+
+This project gave me practical experience in:
+
+- Developing desktop applications using C# and WPF
+- Designing interfaces with XAML
+- Working with Entity Framework Core
+- Managing relational data
+- Implementing CRUD operations
+- Using LINQ for database queries
+- Organizing user interfaces around different application roles
+
+## 👨‍💻 Developed By
+
+**Mohamed H. Eldesouky**
+
+Backend Engineer & Technical Project Coordinator | EVA Pharma
+
+Focused on C#, ASP.NET Core, RESTful APIs, Entity Framework Core, SQL Server, and software engineering principles.
+
+- **GitHub:** [MMohamedHeshamm](https://github.com/MMohamedHeshamm)
+- **LinkedIn:** [Mohamed H. Eldesouky](https://www.linkedin.com/in/mohamedhhh/)
+
+---
+
+*An educational desktop application demonstrating C#, WPF, Entity Framework Core, and database-driven assignment management.*
