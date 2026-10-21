@@ -1,0 +1,18 @@
+<Window x:Class="WpfApp2.AllAssignmentsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="All Assignments" Height="555" Width="980" WindowStartupLocation="CenterOwner">
+    <Grid Margin="16">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+        <TextBlock Text="All Student Assignments" FontSize="21" FontWeight="Bold" Foreground="#145DA0" Margin="0,0,0,13"/>
+        <DataGrid Grid.Row="1" x:Name="AllAssignGrid" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding AssignmentId}" Header="ID" Width="55"/>
+                <DataGridTextColumn Binding="{Binding AssignmentTitle}" Header="Title" Width="2*"/>
+                <DataGridTextColumn Binding="{Binding AssignmentDesc}" Header="Description" Width="3*"/>
+                <DataGridTextColumn Binding="{Binding AssignmentStatus}" Header="Status" Width="120"/>
+                <DataGridTextColumn Binding="{Binding Student.StudentName}" Header="Student" Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

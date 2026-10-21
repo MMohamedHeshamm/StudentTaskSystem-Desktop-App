@@ -1,0 +1,42 @@
+<Window x:Class="WpfApp2.StudentAssignmentsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Student Assignments" Height="530" Width="920" MinWidth="780" MinHeight="460"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="TxtStudentName" FontWeight="Bold" FontSize="20"
+                   Foreground="#145DA0" Margin="0,0,0,15"/>
+        <DataGrid Grid.Row="1" x:Name="DgAssignments" AutoGenerateColumns="False"
+                  SelectionMode="Single" SelectionChanged="DgAssignments_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding AssignmentId}" Width="55"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding AssignmentTitle}" Width="2*"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding AssignmentDesc}" Width="3*"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding AssignmentStatus}" Width="130"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DockPanel Grid.Row="2" Margin="0,14,0,0" LastChildFill="False">
+            <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center">
+                <Button x:Name="BtnAdd" Content="Add" Width="70" Click="AddAssignment_Click" Margin="0,0,6,6"/>
+                <Button x:Name="BtnUpdate" Content="Edit" Width="70" Click="UpdateAssignment_Click" Margin="0,0,6,6"/>
+                <Button x:Name="BtnDelete" Content="Delete" Width="70" Click="DeleteAssignment_Click" Margin="0,0,14,6"/>
+                <TextBlock Text="Status:" VerticalAlignment="Center" Margin="0,0,7,6"/>
+                <ComboBox x:Name="StatusPicker" Width="130" Height="32" Margin="0,0,7,6">
+                    <ComboBoxItem Content="Pending"/>
+                    <ComboBoxItem Content="In Progress"/>
+                    <ComboBoxItem Content="Completed"/>
+                </ComboBox>
+                <Button Content="Update Status" Width="118" Click="UpdateStatus_Click" Margin="0,0,10,6"/>
+            </WrapPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Center">
+                <Button x:Name="BtnChangePassword" Content="Change Password" Click="ChangePassword_Click" Margin="0,0,7,6"/>
+                <Button x:Name="BtnLogOut" Content="Log out" Click="Log_Out_Click" Margin="0,0,0,6"/>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>

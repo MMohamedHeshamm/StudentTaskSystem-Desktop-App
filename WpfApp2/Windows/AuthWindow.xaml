@@ -1,0 +1,22 @@
+<Window x:Class="WpfApp2.AuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Student Task Manager — Sign in" Height="390" Width="470"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Border Background="White" Margin="18" Padding="22" CornerRadius="10" BorderBrush="#DDE5EF" BorderThickness="1">
+        <StackPanel>
+            <TextBlock Text="Student Task Manager" FontSize="23" FontWeight="Bold" Foreground="#145DA0"/>
+            <TextBlock Text="Sign in or register a student" Margin="0,3,0,20" Foreground="#526276"/>
+            <TextBlock Text="Username"/>
+            <TextBox x:Name="TxtUsername" Margin="0,5,0,12" MaxLength="50"/>
+            <TextBlock Text="Password"/>
+            <PasswordBox x:Name="textboxOfPassword" Margin="0,5,0,14"/>
+            <WrapPanel>
+                <Button x:Name="BtnLogin" Content="Sign in" Click="Login_Click" Width="100" Margin="0,0,8,8"/>
+                <Button x:Name="BtnRegister" Content="Register Student" Click="RegisterStudent_Click" Width="140" Margin="0,0,8,8"/>
+                <Button x:Name="BtnCreateTeacher" Content="Create Teacher" Click="CreateTeacher_Click" Width="130" Margin="0,0,0,8"/>
+            </WrapPanel>
+            <TextBlock x:Name="TxtSetupInfo" TextWrapping="Wrap" FontSize="12" Foreground="#526276" Margin="0,11,0,0"/>
+        </StackPanel>
+    </Border>
+</Window>

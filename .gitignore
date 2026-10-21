@@ -1,0 +1,17 @@
+# Visual Studio / .NET
+.vs/
+**/bin/
+**/obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+TestResults/
+
+# Local configuration, secrets and database backups
+.env
+.env.*
+!*.example
+*.bak
+*.mdf
+*.ldf
